@@ -2,6 +2,10 @@
 
 ## Introduction
 
+ <p align="center">
+  <img src="Assets/Images/Pharma_packaging.png" alt="Medicine" width="750">
+  </p>
+
 ## Abstract 
 
 ## Proposed Architecture 
@@ -10,7 +14,7 @@
   - <b>Addition of Medicine into Supply Chain</b>
   
   <p align="center">
-  <img src="Assets/Usecases/Medicine.png" alt="Medicine" width="500" height="400">
+  <img src="Assets/Usecases/Pharma_packaging.png" alt="Medicine" width="500">
   </p>
   
   - <b>Fake Medicine Detection</b>
