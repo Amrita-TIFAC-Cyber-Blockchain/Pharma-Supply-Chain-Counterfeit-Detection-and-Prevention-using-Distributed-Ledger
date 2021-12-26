@@ -1,0 +1,250 @@
+<!-- 
+Author : Abhiram Reddy
+Referred from : Ramaguru Radhakrishnan
+Date Created : December - 2021
+Date Updated : 26.12.2021
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>console manufacturer</title>
+    <meta charset="UTF-8"/>
+	<style>
+	body{        
+        padding-top: 50px;
+        padding-bottom: 30px;
+    }
+	.container{
+        width: 80%;
+        margin: 0 auto; 
+    }
+	.fixed-header, .fixed-footer{
+        width: 100%;
+        position: fixed;        
+        background: #868bf7;
+        padding: 10px 0;
+        color:#160075;
+    }
+	.fixed-header{
+        top: 0;
+    }
+    .fixed-footer{
+        bottom: 0;
+    } 
+	.container p{
+		padding-top: 90px;
+        line-height: 20px;
+    }
+	
+	</style>
+</head>
+<body>
+	<div class="fixed-header">
+		<div class="container">
+		<center>
+			<h2> console manufacturer </h2>
+		</center>
+		</div>
+	</div>
+        
+	<div class="container">	
+	<p>
+		<b><u> console manufacturer</u></b><br/><br/>
+		<form>
+			<table>
+			 <tr><td> Nftid : </td> <td> <input type="text" id="Nftid" name="Nftid"> </td></tr>
+			 <tr><td> mnfglocation : </td> <td> <input type="text" id="mnfglocation" name="mnfglocation"> </td></tr>
+			 <tr><td> batch : </td> <td> <input type="text" id="batch" name="batch"> </td></tr>
+			 <tr><td> unit: </td> <td> <input type="text" id="unit" name="unit"> </td></tr>
+			 <tr><td> qualitycheck : </td> <td> <input type="text" id="qualitycheck" name="qualitycheck"> </td></tr>
+			 <tr><td> giotag : </td> <td> <input type="text" id="giotag" name="giotag"> </td></tr>
+			 <tr><td> Mnfgdid : </td> <td> <input type="text" id="Mnfgdid" name="Mnfgdid"> </td></tr>
+			 <tr><td><input type="button" onclick="addrecord()" value="Add Record"></td></tr>
+
+			</table>
+			
+			<h4> Transaction ID: <a href="https://ropsten.etherscan.io/"><div id="result"></div></a> </h4>
+			
+		</form>
+		<br/>
+		<hr>
+		<form>
+			<table>
+			 <tr><td> batch : </td> <td> <input type="text" id="batch1" name="batch"> </td></tr>
+			 <tr><td><input type="button" onclick="retrieve()" value="Get Batch Info"></td></tr>
+			 <h4> Batch Info <div id="mnfg"></div> </h4>
+
+			</table>
+		
+		</form>
+		<br/>
+	</p>	
+	</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.js"></script>
+    <script>	
+	
+	var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+			
+			}
+			// Legacy DApp browsers
+			else if (window.web3) {
+				//window.web3 = new Web3(web3.currentProvider);
+				window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+				}
+			// Non-DApp browsers
+			else {
+				console.log('Non-Ethereum browser detected. Please install MetaMask');
+				}
+			
+			});
+			
+			// Smart Contract ABI - Application Binary Interfaces
+			var abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_Nftid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_mnfglocation",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_unit",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_qualitycheck",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_giotag",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_Mnfgdid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_batch",
+				"type": "string"
+			}
+		],
+		"name": "addrecord",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_batch",
+				"type": "string"
+			}
+		],
+		"name": "retrieve",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_Mnfgdid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_giotag",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]			//Smart Contract Address
+			var contractaddress = '0x8396fe2085b43c925c6970d31cfeb11fa763021b';
+
+			// Function to call the "Anonymize Day" in Deployed Smart Contract
+			function addrecord(){
+					
+				console.log("");
+						
+				//Instantiate and connect to contract address via ABI
+				var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '300000000', gas: '8000000'});
+
+					//get the values from the HTML to JS using getElementById
+					Nftid = document.getElementById("Nftid").value;
+					mnfglocation = document.getElementById("mnfglocation").value;
+					batch = document.getElementById("batch").value;
+					unit = document.getElementById("unit").value;
+					qualitycheck = document.getElementById("qualitycheck").value;
+					giotag = document.getElementById("giotag").value;
+					Mnfgdid = document.getElementById("Mnfgdid").value;
+
+	
+				//call the "storeDateofBirth" function
+				var result = myContract.methods.addrecord(Nftid,mnfglocation,batch,unit,qualitycheck,giotag,Mnfgdid).send(function (err, result) {
+				
+				if (err) { console.log(err); }
+				if (result) { document.getElementById("result").innerHTML = result; }
+				
+				});
+			}
+			
+			// Function to call the "Verify Identity" in Deployed Smart Contract
+			function retrieve() {
+					
+				console.log("");
+						
+				//Instantiate and connect to contract address via ABI
+				var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '12040852735', gas: '5000000'});
+								
+			
+				
+				batch = document.getElementById("batch1").value;
+				var result = myContract.methods.retrieve(batch).call(function (err, result) {
+				
+				if (err) { console.log(err); }
+				if (result) { console.log(result); 
+					document.getElementById("mnfg").innerHTML = result[1]; }
+				
+				});
+				
+			}
+						
+    </script>
+	
+	<div class="fixed-footer">
+		<div class="container">
+			<center> <h5> Copyright &copy; 2021-2022 <br/> Abhiram Reddy, Ramaguru R, Amrita Vishwa Vidyapeetham, Coimbatore, Tamil Nadu, India </h5> </center>
+		</div>
+	</div>
+
+</body>
+</html>

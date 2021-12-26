@@ -1,0 +1,250 @@
+<!-- 
+Author : Abhiram Reddy
+Referred from : Ramaguru Radhakrishnan
+Date Created : December - 2021
+Date Updated : 26.12.2021
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>console wholesaler</title>
+    <meta charset="UTF-8"/>
+	<style>
+	body{        
+        padding-top: 50px;
+        padding-bottom: 30px;
+    }
+	.container{
+        width: 80%;
+        margin: 0 auto; 
+    }
+	.fixed-header, .fixed-footer{
+        width: 100%;
+        position: fixed;        
+        background: #868bf7;
+        padding: 10px 0;
+        color:#160075;
+    }
+	.fixed-header{
+        top: 0;
+    }
+    .fixed-footer{
+        bottom: 0;
+    } 
+	.container p{
+		padding-top: 90px;
+        line-height: 20px;
+    }
+	
+	</style>
+</head>
+<body>
+	<div class="fixed-header">
+		<div class="container">
+		<center>
+			<h2> console wholesaler </h2>
+		</center>
+		</div>
+	</div>
+        
+	<div class="container">	
+	<p>
+		<b><u> console wholesaler</u></b><br/><br/>
+		<form>
+			<table>
+			 <tr><td> palletn : </td> <td> <input type="text" id="palletn" name="palletn"> </td></tr>
+			 <tr><td> giotag : </td> <td> <input type="text" id="giotag" name="giotag"> </td></tr>
+			 <tr><td> temp : </td> <td> <input type="text" id="temp" name="temp"> </td></tr>
+			 <tr><td> wseldid: </td> <td> <input type="text" id="wseldid" name="wseldid"> </td></tr>
+			 <tr><td> qualitych : </td> <td> <input type="text" id="qualitych" name="qualitych"> </td></tr>
+			 <tr><td> recivet : </td> <td> <input type="text" id="recivet" name="recivet"> </td></tr>
+			 <tr><td> sentt : </td> <td> <input type="text" id="sentt" name="sentt"> </td></tr>
+			 <tr><td><input type="button" onclick="addrecord()" value="Add Record"></td></tr>
+
+			</table>
+			
+			<h4> Transaction ID: <a href="https://ropsten.etherscan.io/"><div id="result"></div></a> </h4>
+			
+		</form>
+		<br/>
+		<hr>
+		<form>
+			<table>
+			 <tr><td> palletn : </td> <td> <input type="text" id="palletn1" name="palletn"> </td></tr>
+			 <tr><td><input type="button" onclick="retrieve()" value="Get Info"></td></tr>
+			 <h4> Info <div id="wsel"></div> </h4>
+
+			</table>
+		
+		</form>
+		<br/>
+	</p>	
+	</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.js"></script>
+    <script>	
+	
+	var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+			
+			}
+			// Legacy DApp browsers
+			else if (window.web3) {
+				//window.web3 = new Web3(web3.currentProvider);
+				window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+				}
+			// Non-DApp browsers
+			else {
+				console.log('Non-Ethereum browser detected. Please install MetaMask');
+				}
+			
+			});
+			
+			// Smart Contract ABI - Application Binary Interfaces
+			var abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_giotag",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_temp",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_wseldid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_qualitych",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_recivet",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_sentt",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_palletn",
+				"type": "string"
+			}
+		],
+		"name": "addrecord",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_palletn",
+				"type": "string"
+			}
+		],
+		"name": "retrieve",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_wseldid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_giotag",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]			//Smart Contract Address
+			var contractaddress = '0xfc94f90c6f683d9eebe78158702af0276482d60b';
+
+			// Function to call the "Anonymize Day" in Deployed Smart Contract
+			function addrecord(){
+					
+				console.log("");
+						
+				//Instantiate and connect to contract address via ABI
+				var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '300000000', gas: '8000000'});
+
+					//get the values from the HTML to JS using getElementById
+					palletn = document.getElementById("palletn").value;
+					giotag = document.getElementById("giotag").value;
+					temp = document.getElementById("temp").value;
+					wseldid = document.getElementById("wseldid").value;
+					qualitych = document.getElementById("qualitych").value;
+					recivet = document.getElementById("recivet").value;
+					sentt = document.getElementById("sentt").value;
+
+	
+				//call the "storeDateofBirth" function
+				var result = myContract.methods.addrecord(palletn,giotag,temp,wseldid,qualitych,recivet,sentt).send(function (err, result) {
+				
+				if (err) { console.log(err); }
+				if (result) { document.getElementById("result").innerHTML = result; }
+				
+				});
+			}
+			
+			// Function to call the "Verify Identity" in Deployed Smart Contract
+			function retrieve() {
+					
+				console.log("");
+						
+				//Instantiate and connect to contract address via ABI
+				var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '12040852735', gas: '5000000'});
+								
+			
+				
+				batch = document.getElementById("palletn1").value;
+				var result = myContract.methods.retrieve(batch).call(function (err, result) {
+				
+				if (err) { console.log(err); }
+				if (result) { console.log(result); 
+					document.getElementById("wsel").innerHTML = result[1]; }
+				
+				});
+				
+			}
+						
+    </script>
+	
+	<div class="fixed-footer">
+		<div class="container">
+			<center> <h5> Copyright &copy; 2021-2022 <br/> Abhiram Reddy, Ramaguru R, Amrita Vishwa Vidyapeetham, Coimbatore, Tamil Nadu, India </h5> </center>
+		</div>
+	</div>
+
+</body>
+</html>
