@@ -1,4 +1,5 @@
 # Pharma-Supply-Chain
+![](https://img.shields.io/badge/BlockchainCourse-20CY712-green) ![](https://img.shields.io/badge/AmritaBlockchain-WIP-orange) ![](https://img.shields.io/badge/Publication-WIP-orange)
 
 ## Introduction
 
