@@ -1,5 +1,5 @@
-# Pharma Supply Chain Counterfeit Detection and Prevention using Distributed Ledger ![](https://img.shields.io/badge/-On_Hold-red)
-![](https://img.shields.io/badge/Batch-20CYS-green) ![](https://img.shields.io/badge/BlockchainCourse-20CY712-green) ![](https://img.shields.io/badge/Focus-SupplyChain-yellow) ![](https://img.shields.io/badge/AmritaBlockchain-WIP-orange) ![](https://img.shields.io/badge/Publication-On_Hold-red) <br/>
+# Pharma Supply Chain Counterfeit Detection and Prevention using Distributed Ledger 
+![](https://img.shields.io/badge/Batch-20CYS-green) ![](https://img.shields.io/badge/BlockchainCourse-20CY712-green) ![](https://img.shields.io/badge/Focus-SupplyChain-yellow) ![](https://img.shields.io/badge/Mini_Project-Accepted-green) <br/> 
 ![](https://img.shields.io/badge/Blockchain-Ethereum-blue) ![](https://img.shields.io/badge/Standards-DID-blue) ![](https://img.shields.io/badge/NFT-ERC721-blue) ![](https://img.shields.io/badge/Storage-IPFS-blue) 
 
 ## Introduction
